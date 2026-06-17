@@ -1,0 +1,112 @@
+media:
+  input: src/assets/images
+  output: /assets/images
+
+content:
+  # ── Blog Posts ──────────────────────────────────────────────
+  - name: posts
+    label: Blog Posts
+    type: collection
+    path: src/posts
+    filename: '{year}-{month}-{day}-{fields.title}'
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Description
+        type: text
+      - name: date
+        label: Date
+        type: date
+        required: true
+      - name: tags
+        label: Tags
+        type: select
+        multiple: true
+        options:
+          values:
+            - feature
+            - markdown
+            - redirects
+            - youtube
+            - peertube
+            - images
+            - video
+            - code
+      - name: image
+        label: Featured Image
+        type: image
+      - name: draft
+        label: Draft
+        type: boolean
+      - name: body
+        label: Content
+        type: rich-text
+
+  # ── Pages ────────────────────────────────────────────────────
+  - name: pages
+    label: Pages
+    type: collection
+    path: src/pages
+    format: yaml-frontmatter
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Description
+        type: text
+      - name: permalink
+        label: Permalink
+        type: string
+      - name: layout
+        label: Layout
+        type: select
+        options:
+          values:
+            - page
+            - base
+      - name: body
+        label: Content
+        type: rich-text
+
+  # ── Site Settings (meta.js is ESM — edit personal.yaml instead) ──
+  - name: personal
+    label: Personal & Platforms
+    type: file
+    path: src/_data/personal.yaml
+    format: yaml
+    fields:
+      - name: email
+        label: Email
+        type: string
+      - name: address
+        label: Address
+        type: text
+      - name: platforms
+        label: Platform Links
+        type: object
+        fields:
+          - name: github
+            label: GitHub URL
+            type: string
+          - name: mastodon
+            label: Mastodon URL
+            type: string
+          - name: bluesky
+            label: Bluesky URL
+            type: string
+          - name: kofi
+            label: Ko-fi URL
+            type: string
+
+  # ── Navigation ───────────────────────────────────────────────
+  - name: navigation
+    label: Navigation
+    type: file
+    path: src/_data/navigation.js
+    format: raw
