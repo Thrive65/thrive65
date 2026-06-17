@@ -6,10 +6,9 @@ content:
   # ── Blog Posts ──────────────────────────────────────────────
   - name: posts
     label: Blog Posts
-    subfolders: true
     type: collection
     path: src/posts
-    filename: '{year}-{month}-{day}-{fields.title}'
+    subfolders: true
     format: yaml-frontmatter
     fields:
       - name: title
