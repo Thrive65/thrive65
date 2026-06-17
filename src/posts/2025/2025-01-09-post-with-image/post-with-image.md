@@ -1,44 +1,47 @@
 ---
-title: 'Post with an image'
-description: "We can use Markdown, Nunjucks shortcodes or pure HTML to add images to posts and pages."
+title: Post with an image
+description: We can use Markdown, Nunjucks shortcodes or pure HTML to add images
+  to posts and pages.
 date: 2025-01-09
-tags: ['image', 'feature']
-image: '/assets/images/gallery/asturias-1.jpg'
-alt: 'A picturesque valley showcasing majestic mountains and lush forests, creating a serene and captivating landscape'
-credit: A photo I took.
+tags:
+  - image
+  - feature
+  - poop
+image: /assets/images/gallery/asturias-1.jpg
+draft: false
 ---
-
-Using the powerful [Eleventy Image plugin](https://www.11ty.dev/docs/plugins/image/), we have three ways to optimize images: <a href="#html-transform">HTML Transform</a>, <a href="#markdown-syntax">Markdown syntax</a>, and <a href="#nunjucks-shortcodes">Nunjucks shortcodes</a>.
+Using the powerful [Eleventy Image plugin](https://www.11ty.dev/docs/plugins/image/), we have three ways to optimize images: [HTML Transform](#html-transform), [Markdown syntax](#markdown-syntax), and [Nunjucks shortcodes](#nunjucks-shortcodes).
 
 ## HTML Transform
 
 Transforms any `<img>` or `<picture>` tags in HTML files as a post-processing step. Find the default settings directly in `eleventy.config.js`.
 
 ```html
-<img src="./co-located-image.jpg" alt="alt text">
+<img src="co-located-image.jpg" alt="alt text">
 <img src="/assets/images/absolute-path-image.jpg" alt="alt text">
 ```
 
-We can pass in overrides for every instance and use attributes. By default all images are set to be lazy loaded, but we can override this by directly setting `loading="eager"` and `decoding="sync" `on the `<img>` element.
+We can pass in overrides for every instance and use attributes. By default all images are set to be lazy loaded, but we can override this by directly setting `loading="eager"` and `decoding="sync"` on the `<img>` element.
 
 Another thing to note is the  `widths: ['auto']` setting, which by default only includes the original size image. We can set the dedicated `widths` to be used by adding `eleventy:widths="800,1200"` on the element. For images with [Markdown syntax](/blog/post-with-an-image/#markdown-syntax), I set fixed `widths` so we don't need to set a value on every instance.
 
-`sizes` defaults to `auto`, which is by default applied to all lazy loading images. See: https://github.com/whatwg/html/pull/8008. We can overwrite this, by setting the `sizes` attribute directly on the `<img>` element, with something specific like `sizes="(max-width: 615px) 50vw, 100vw"`. Note:
+`sizes` defaults to `auto`, which is by default applied to all lazy loading images. See: [https://github.com/whatwg/html/pull/8008](https://github.com/whatwg/html/pull/8008). We can overwrite this, by setting the `sizes` attribute directly on the `<img>` element, with something specific like `sizes="(max-width: 615px) 50vw, 100vw"`. Note:
 The `sizes` attribute is required if `widths` has more than one entry. No default value for is added for `sizes` for eagerly loaded images, so we need to set it explicitly.
+
 ```html
-<img src="./co-located-image.jpg" alt="alt text" eleventy:widths="200,600" sizes="100vw" loading="eager" decoding="sync">
+<img src="co-located-image.jpg" alt="alt text" eleventy:widths="200,600" sizes="100vw" loading="eager" decoding="sync">
 ```
 
-<img src="./asturias-1.jpg" alt="A picturesque valley showcasing majestic mountains and lush forests, creating a serene and captivating landscape" eleventy:widths="200,600" sizes="100vw" loading="eager" decoding="sync">
+![A picturesque valley showcasing majestic mountains and lush forests, creating a serene and captivating landscape](asturias-1.jpg)
 
 **Extra benefit:** we can use both relative and absolute image sources.
 One downside is that it comes with a higher build cost due to the post-processing step.
 
-More info: https://www.11ty.dev/docs/plugins/image/#html-transform
+More info: [https://www.11ty.dev/docs/plugins/image/#html-transform](https://www.11ty.dev/docs/plugins/image/#html-transform)
 
 ## Markdown syntax
 
-This also uses [Image HTML Transform ](https://www.11ty.dev/docs/plugins/image/#html-transform).
+This also uses [Image HTML Transform](https://www.11ty.dev/docs/plugins/image/#html-transform) .
 The markdown sytnax for images creates the `<img>` element the plugin is looking for, and then transforms it to the `<picture>` element (if more than one format is set).
 
 In `src/_config/plugins/markdown.js` I customized the Markdown rendering for images slightly. What normally would become a `title` attribute is used to create the caption (`<figcaption>` within a `<figure>` element). Note that I set a fixed `widths` value instead of `auto` as the default.
@@ -48,7 +51,7 @@ In `src/_config/plugins/markdown.js` I customized the Markdown rendering for ima
 ![Close-up...](/assets/images/gallery/asturias-4.jpg) 'I used a portrait lens for this one'
 ```
 
-![Close-up with unfocused background of a vibrant large blue butterfly gracefully perched on a delicate flower amidst lush green gras](/assets/images/gallery/asturias-4.jpg 'I used a portrait lens for this one')
+![Close-up with unfocused background of a vibrant large blue butterfly gracefully perched on a delicate flower amidst lush green gras](/assets/images/gallery/asturias-4.jpg "I used a portrait lens for this one")
 
 We can also add custom attributes here ([Kudos to Aleksandr](https://www.aleksandrhovhannisyan.com/blog/eleventy-image-transform/)), to overwrite the default `widths`, have the image eagerly loaded, or add a `class` attribute, etc.
 
@@ -157,7 +160,7 @@ This shortcode allows us to specify parameters in any order or only include the 
 
 The shortcodes are defined in `src/_config/shortcodes/image.js`. They also set `slot="image"` on their container element, so they can be used with any WebC component that contains a `<slot name="image"></slot>`, see `src/_includes/webc/custom-card.web` for example.
 
-Since we are using them alongside the <a href="#html-transform">Image HTML Transform</a> method, the shortcodes add `eleventy:ignore` to the `<img>` attributes so the images aren’t processed twice.
+Since we are using them alongside the [Image HTML Transform](#html-transform) method, the shortcodes add `eleventy:ignore` to the `<img>` attributes so the images aren’t processed twice.
 
 ## Comparing Shortcode and HTML Transform
 
@@ -171,7 +174,7 @@ The shortcode can be much terser than the HTML syntax, while the HTML syntax is 
 {% image image, alt or "", credit, "eager", "feature", "grayscale" %}
 
 <figure class="feature">
-  <img src="{{ image }}" alt="{{ alt or '' }}" loading="eager" decoding="sync" class="grayscale">
+  <img src="%7B%7B%20image%20%7D%7D" alt="{{ alt or '' }}" loading="eager" decoding="sync" class="grayscale">
   {% if credit %}
     <figcaption>{{ credit }}</figcaption>
   {% endif %}
@@ -182,16 +185,17 @@ The shortcode can be much terser than the HTML syntax, while the HTML syntax is 
 
 {% image "/assets/images/gallery/asturias-1.jpg", "A picturesque valley showcasing majestic mountains and lush forests, creating a serene and captivating landscape", "Example image using the positional shortcode", "eager", "feature", "grayscale" %}
 
-<figure class="feature">
-  <img src="/assets/images/gallery/asturias-1.jpg" alt="A picturesque valley showcasing majestic mountains and lush forests, creating a serene and captivating landscape" loading="eager" decoding="sync" class="grayscale" sizes="100vw">
-    <figcaption>Example image using the HTML syntax</figcaption>
-</figure>
+![A picturesque valley showcasing majestic mountains and lush forests, creating a serene and captivating landscape](/assets/images/gallery/asturias-1.jpg)
+
+Example image using the HTML syntax
 
 More:
-- https://www.11ty.dev/docs/plugins/image/
-- https://www.youtube.com/watch?v=e0OHgC677ec
-- https://piccalil.li/blog/the-end-of-responsive-images/
-- https://www.aleksandrhovhannisyan.com/blog/eleventy-image-transform/
-- https://coryd.dev/posts/2024/setting-up-image-transforms-in-eleventy
-- https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes
-- https://ericportis.com/posts/2023/auto-sizes-pretty-much-requires-width-and-height/
+
+- [https://www.11ty.dev/docs/plugins/image/](https://www.11ty.dev/docs/plugins/image/)
+- [https://www.youtube.com/watch?v=e0OHgC677ec](https://www.youtube.com/watch?v=e0OHgC677ec)
+- [https://piccalil.li/blog/the-end-of-responsive-images/](https://piccalil.li/blog/the-end-of-responsive-images/)
+- [https://www.aleksandrhovhannisyan.com/blog/eleventy-image-transform/](https://www.aleksandrhovhannisyan.com/blog/eleventy-image-transform/)
+- [https://coryd.dev/posts/2024/setting-up-image-transforms-in-eleventy](https://coryd.dev/posts/2024/setting-up-image-transforms-in-eleventy)
+- [https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes)
+- [https://ericportis.com/posts/2023/auto-sizes-pretty-much-requires-width-and-height/](https://ericportis.com/posts/2023/auto-sizes-pretty-much-requires-width-and-height/)
+
