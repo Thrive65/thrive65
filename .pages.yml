@@ -6,6 +6,7 @@ content:
   # ── Blog Posts ──────────────────────────────────────────────
   - name: posts
     label: Blog Posts
+    subfolders: true
     type: collection
     path: src/posts
     filename: '{year}-{month}-{day}-{fields.title}'
