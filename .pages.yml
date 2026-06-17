@@ -24,8 +24,8 @@ content:
         required: true
       - name: tags
         label: Tags
-        type: select
-        multiple: true
+        type: string
+        list: true
         options:
           values:
             - feature
