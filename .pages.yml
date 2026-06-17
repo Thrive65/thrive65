@@ -24,7 +24,7 @@ content:
         required: true
       - name: tags
         label: Tags
-        type: string
+        type: select
         multiple: true
         options:
           values:
